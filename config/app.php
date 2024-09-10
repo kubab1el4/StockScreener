@@ -123,6 +123,8 @@ return [
 
     'key' => env('APP_KEY'),
 
+    'fmg_api_key' => env('FMG_API_KEY', ''),
+
     'cipher' => 'AES-256-CBC',
 
     /*
