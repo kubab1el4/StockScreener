@@ -15,6 +15,6 @@ class Exchange extends Model
     ];
 
     public function companies() : HasMany {
-        return $this->hasMany(Exchange::class);
+        return $this->hasMany(Company::class);
     }
 }

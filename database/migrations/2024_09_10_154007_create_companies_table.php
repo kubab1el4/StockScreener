@@ -16,6 +16,13 @@ return new class extends Migration
             $table->foreignId('exchange_id');
             $table->string('symbol')->nullable();
             $table->string('name')->nullable();
+            $table->text('sector')->nullable();
+            $table->integer('full_time_employees')->nullable();
+            $table->text('subindustry')->nullable();
+            $table->text('industry')->nullable();
+            $table->date('financials_updated')->nullable();
+            $table->text('country')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

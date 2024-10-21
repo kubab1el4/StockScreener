@@ -123,7 +123,7 @@ return [
 
     'key' => env('APP_KEY'),
 
-    'fmg_api_key' => env('FMG_API_KEY', ''),
+    'qfs_api_key' => env('QFS_API_KEY', ''),
 
     'cipher' => 'AES-256-CBC',
 

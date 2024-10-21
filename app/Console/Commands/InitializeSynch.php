@@ -15,7 +15,7 @@ class InitializeSynch extends Command
      *
      * @var string
      */
-    protected $signature = 'initialize-synch';
+    protected $signature = 'initialize-synch {exchange*} : List of exchanges';
 
     /**
      * The console command description.
@@ -28,13 +28,18 @@ class InitializeSynch extends Command
      * Execute the console command.
      */
     public function handle() {
-        $exchanges = Http::fmg()->get('/exchanges-list')->collect();
+        $arguments = $this->arguments()['exchange'];
+
+        if (count($arguments) > 0) {
+            $exchanges = collect($arguments);
+        } else {
+            $exchanges = collect(['USA']);
+        }
 
         $exchanges->each(function($exch) {
             $exchange = Exchange::firstOrCreate(['symbol' => $exch]);
-
-            Http::fmg()->get("/symbol/{$exchange->symbol}")->collect()->each(function($company) use ($exchange) {
-                $company = Company::firstOrCreate(['symbol' => $company['symbol'] ?? null, 'name' => $company['name'] ?? null], ['exchange_id' => $exchange->id]);
+            collect(Http::qfs()->get("/companies/{$exchange->symbol}")->collect()->get('data'))->each(function(string $symbol) use ($exchange) {
+                $company = Company::firstOrCreate(['symbol' => $symbol], ['exchange_id' => $exchange->id]);
                 SynchronizeStatements::dispatch($company);
             });
         });

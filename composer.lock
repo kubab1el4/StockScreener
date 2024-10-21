@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5aa33c4c9c59a25291445d8226153066",
+    "content-hash": "ad327efd3e4c0002cb1a581c312af104",
     "packages": [
         {
             "name": "brick/math",
@@ -1912,6 +1912,49 @@
                 }
             ],
             "time": "2024-04-12T20:52:51+00:00"
+        },
+        {
+            "name": "mormat/php-formula-interpreter",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mormat/php-formula-interpreter.git",
+                "reference": "4665d4b9c13818d0f09d329e492d4ff39dd0cb57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mormat/php-formula-interpreter/zipball/4665d4b9c13818d0f09d329e492d4ff39dd0cb57",
+                "reference": "4665d4b9c13818d0f09d329e492d4ff39dd0cb57",
+                "shasum": ""
+            },
+            "require-dev": {
+                "symfony/class-loader": "2.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mormat\\FormulaInterpreter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mormat",
+                    "email": "mormat@free.fr"
+                }
+            ],
+            "description": "Formula interpreter for PHP",
+            "keywords": [
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/mormat/php-formula-interpreter/issues",
+                "source": "https://github.com/mormat/php-formula-interpreter/tree/v2.0.0"
+            },
+            "time": "2023-03-22T10:11:58+00:00"
         },
         {
             "name": "nesbot/carbon",

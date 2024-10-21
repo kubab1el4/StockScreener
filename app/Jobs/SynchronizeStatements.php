@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\BalanceStatement;
 use App\Models\CashFlowStatement;
 use App\Models\Company;
+use App\Models\Fundamental;
 use App\Models\IncomeStatement;
 use Http;
 use Illuminate\Bus\Queueable;
@@ -35,16 +36,8 @@ class SynchronizeStatements implements ShouldQueue
      * @return void
      */
     public function handle() {
-        Http::fmg()->get("/income-statement/{$this->company->symbol}?period=annual")->collect()->each(function($statement) {
-            IncomeStatement::firstOrCreate(['symbol' => $this->company->symbol, 'date' => $statement['date'] ?? null], array_merge($statement, ['company_id' => $this->company->id]));
-        });
-
-        Http::fmg()->get("/balance-sheet-statement/{$this->company->symbol}?period=annual")->collect()->each(function($statement) {
-            BalanceStatement::firstOrCreate(['symbol' => $this->company->symbol, 'date' => $statement['date'] ?? null], array_merge($statement, ['company_id' => $this->company->id]));
-        });
-
-        Http::fmg()->get("/cash-flow-statement/{$this->company->symbol}?period=annual")->collect()->each(function($statement) {
-            CashFlowStatement::firstOrCreate(['symbol' => $this->company->symbol, 'date' => $statement['date'] ?? null], array_merge($statement, ['company_id' => $this->company->id]));
-        });
+        $data = Http::qfs()->get("/data/all-data/{$this->company->symbol}")->json();
+        Fundamental::updateOrCreate(['company_id' => $this->company->id], ['value' => $data]);
+        ProcessCompanyData::dispatch($this->company);
     }
 }

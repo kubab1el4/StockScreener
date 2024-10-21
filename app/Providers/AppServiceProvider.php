@@ -25,13 +25,19 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        $apiCall = ApiCall::firstOrCreate(['date' => date('Y-m-d')], ['use_count' => 0]);
-        $this->app->instance(ApiCall::class, $apiCall);
+        // $apiCall = ApiCall::firstOrCreate(['date' => date('Y-m-d')], ['use_count' => 0]);
+        // $this->app->instance(ApiCall::class, $apiCall);
 
-        Http::macro('fmg', function () {
+        Http::macro('qfs', function () {
             $apiCall = resolve(ApiCall::class);
+
+            if ($apiCall->use_count === 25000) {
+                exit;
+            }
+
             $apiCall->update(['use_count' => $apiCall->use_count + 1]);
-            return Http::baseUrl('https://financialmodelingprep.com/api/v3')->withOptions(['query' => ['apikey' => config('app.fmg_api_key')]]);
+
+            return Http::baseUrl('https://public-api.quickfs.net/v1/')->withOptions(['query' => ['api_key' => config('app.qfs_api_key')]]);
         });
     }
 }

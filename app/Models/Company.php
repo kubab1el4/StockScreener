@@ -15,21 +15,28 @@ class Company extends Model
         'exchange_id',
         'name',
         'symbol',
+        'sector',
+        'full_time_employees',
+        'subindustry',
+        'industry',
+        'financials_updated',
+        'country',
+        'description',
     ];
 
     public function exchange() : HasOne {
         return $this->hasOne(Exchange::class);
     }
 
-    public function balanceStatements() : HasMany {
-        return $this->hasMany(BalanceStatement::class);
+    public function fundamental() : HasOne {
+        return $this->hasOne(Fundamental::class);
     }
 
-    public function cashFlowStatements() : HasMany {
-        return $this->hasMany(CashFlowStatement::class);
+    public function data() : HasMany {
+        return $this->hasMany(CompanyData::class);
     }
 
-    public function incomeStatements() : HasMany {
-        return $this->hasMany(IncomeStatement::class);
+    public function getFundamentalValue(string $guid, int $limit, string $function, string $type = 'A') {
+        return $this->hasMany(CompanyData::class)->where('guid', $guid)->where('type', $type)->limit($limit)->orderByDesc('period')->$function('value');
     }
 }
